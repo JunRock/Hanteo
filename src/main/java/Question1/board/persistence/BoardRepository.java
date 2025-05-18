@@ -7,6 +7,9 @@ public interface BoardRepository {
 
      Board findById(int boardId);
 
+     Board findByName(String boardName);
+
      List<Board> findAll();
 
+    boolean existsByName();
 }
