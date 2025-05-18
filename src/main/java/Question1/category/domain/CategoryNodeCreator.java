@@ -9,12 +9,10 @@ import lombok.RequiredArgsConstructor;
 public class CategoryNodeCreator {
 
     private final CategoryNodeEntityRepository categoryNodeRepository;
-    private final CategoryNodeValidator validator;
 
-    public CategoryNode create(int categoryId, String categoryName) {
+    public void create(int categoryId, String categoryName) {
         CategoryNode categoryNode = new CategoryNode(categoryId, categoryName);
-        validator.validateNew(categoryNode);
-        return categoryNodeRepository.save(categoryNode);
+        categoryNodeRepository.save(categoryNode);
     }
 
     public void createLink(int parentId, int childId){

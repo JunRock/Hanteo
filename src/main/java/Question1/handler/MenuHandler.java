@@ -3,10 +3,8 @@ package Question1.handler;
 import Question1.board.persistence.Board;
 import Question1.boardcategory.BoardCategoryService;
 import Question1.util.CategoryPrinter;
-import lombok.RequiredArgsConstructor;
-
-import java.util.NoSuchElementException;
 import java.util.Scanner;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class MenuHandler {
@@ -23,12 +21,8 @@ public class MenuHandler {
     private void exec(Action action) {
         try {
             action.run();
-        } catch (NumberFormatException e) {
-            System.err.println("숫자를 입력해야 합니다.");
-        } catch (NoSuchElementException e) {
-            System.err.println("해당 카테고리가 없습니다.");
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -56,8 +50,10 @@ public class MenuHandler {
         exec(() -> {
             System.out.print("새 카테고리 ID 입력> ");
             int newId = Integer.parseInt(sc.nextLine().trim());
+            service.validCategoryId(newId);
             System.out.print("새 카테고리 이름 입력> ");
             String newName = sc.nextLine();
+            service.validCategoryName(newName);
             service.generateCategory(newId, newName);
 
             System.out.print("부모 카테고리 ID 입력(없으면 엔터)> ");

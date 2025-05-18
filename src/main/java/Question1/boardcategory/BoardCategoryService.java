@@ -3,6 +3,7 @@ package Question1.boardcategory;
 import Question1.board.domain.BoardCreator;
 import Question1.board.persistence.Board;
 import Question1.category.domain.CategoryNodeCreator;
+import Question1.category.domain.CategoryNodeValidator;
 import Question1.category.persistence.CategoryNode;
 import Question1.category.persistence.CategoryNodeEntityRepository;
 import Question1.util.JsonPrinter;
@@ -17,6 +18,7 @@ public class BoardCategoryService {
     private final JsonPrinter jsonPrinter;
     private final CategoryNodeCreator categoryNodeCreator;
     private final BoardCreator boardCreator;
+    private final CategoryNodeValidator validator;
     private static final String DELIMITER = "\n\n";
 
     public void assignBoardToCategory(Board board, int categoryId) {
@@ -48,5 +50,13 @@ public class BoardCategoryService {
 
     public Board createBoard(String boardName) {
         return boardCreator.create(boardName);
+    }
+
+    public void validCategoryId(int categoryId){
+        validator.isExistCategoryId(categoryId);
+    }
+
+    public void validCategoryName(String categoryName){
+        validator.isExistCategoryName(categoryName);
     }
 }

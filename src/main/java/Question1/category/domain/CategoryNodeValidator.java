@@ -1,6 +1,5 @@
 package Question1.category.domain;
 
-import Question1.category.persistence.CategoryNode;
 import Question1.category.persistence.CategoryNodeEntityRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -8,15 +7,18 @@ import lombok.RequiredArgsConstructor;
 public class CategoryNodeValidator {
     private final CategoryNodeEntityRepository categoryNodeRepository;
 
-    public void validateNew(CategoryNode node) {
-        if (categoryNodeRepository.existsById(node.getCategoryId())) {
+    public void isExistCategoryId(int categoryId){
+        if (categoryNodeRepository.existsById(categoryId)) {
             throw new IllegalArgumentException(
-                "해당 카테고리 ID 존재: " + node.getCategoryId()
+                "해당 카테고리 ID 존재: " + categoryId
             );
         }
-        if (categoryNodeRepository.existsByName(node.getName())) {
+    }
+
+    public void isExistCategoryName(String categoryName){
+        if (categoryNodeRepository.existsByName(categoryName)) {
             throw new IllegalArgumentException(
-                "해당 카테고리 이름 존재: " + node.getName()
+                "해당 카테고리 이름 존재: " + categoryName
             );
         }
     }
