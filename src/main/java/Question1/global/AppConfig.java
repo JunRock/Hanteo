@@ -2,6 +2,7 @@ package Question1.global;
 
 import Question1.board.domain.BoardCreator;
 import Question1.board.persistence.BoardEntityRepository;
+import Question1.board.persistence.InMemoryBoardStorage;
 import Question1.boardcategory.BoardCategoryService;
 import Question1.category.domain.CategoryNodeCreator;
 import Question1.category.domain.CategoryNodeValidator;
@@ -48,20 +49,21 @@ public class AppConfig {
 
     public static Context createContext() {
         Scanner sc = new Scanner(System.in);
+        var storage = new InMemoryBoardStorage();
 
-        var boardRepo = new BoardEntityRepository();
+        var boardRepo = new BoardEntityRepository(storage);
         var categoryRepo = new CategoryNodeEntityRepository();
         var validator = new CategoryNodeValidator(categoryRepo);
-        var creator = new CategoryNodeCreator(categoryRepo, validator);
-        var boardCreator = new BoardCreator();
+        var categoryNodeCreator = new CategoryNodeCreator(categoryRepo, validator);
+        var boardCreator = new BoardCreator(boardRepo);
 
         var mapper = new ObjectMapper();
         var jsonPrinter = new JsonPrinter(mapper);
         var service = new BoardCategoryService(
-            boardRepo,
             categoryRepo,
             jsonPrinter,
-            creator
+            categoryNodeCreator,
+            boardCreator
         );
         var categoryPrinter = new CategoryPrinter(categoryRepo);
 
@@ -71,7 +73,7 @@ public class AppConfig {
             sc,
             boardRepo,
             categoryRepo,
-            creator,
+            categoryNodeCreator,
             boardCreator,
             service,
             categoryPrinter,
