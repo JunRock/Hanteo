@@ -1,12 +1,14 @@
 package Question1.global;
 
 import Question1.board.domain.BoardCreator;
+import Question1.board.domain.BoardValidator;
 import Question1.board.persistence.BoardEntityRepository;
 import Question1.board.persistence.InMemoryBoardStorage;
 import Question1.boardcategory.BoardCategoryService;
 import Question1.category.domain.CategoryNodeCreator;
 import Question1.category.domain.CategoryNodeValidator;
 import Question1.category.persistence.CategoryNodeEntityRepository;
+import Question1.category.persistence.InMemoryCategoryNodeStorage;
 import Question1.handler.MenuHandler;
 import Question1.util.CategoryPrinter;
 import Question1.util.JsonPrinter;
@@ -50,20 +52,21 @@ public class AppConfig {
     public static Context createContext() {
         Scanner sc = new Scanner(System.in);
         var storage = new InMemoryBoardStorage();
-
+        var categoryNodeStorage = new InMemoryCategoryNodeStorage();
         var boardRepo = new BoardEntityRepository(storage);
-        var categoryRepo = new CategoryNodeEntityRepository();
-        var validator = new CategoryNodeValidator(categoryRepo);
-        var categoryNodeCreator = new CategoryNodeCreator(categoryRepo, validator);
-        var boardCreator = new BoardCreator(boardRepo);
-
+        var categoryRepo = new CategoryNodeEntityRepository(categoryNodeStorage);
+        var categoryNodeValidator = new CategoryNodeValidator(categoryRepo);
+        var categoryNodeCreator = new CategoryNodeCreator(categoryRepo);
+        var boardValidator = new BoardValidator(boardRepo);
+        var boardCreator = new BoardCreator(boardRepo, boardValidator);
         var mapper = new ObjectMapper();
         var jsonPrinter = new JsonPrinter(mapper);
         var service = new BoardCategoryService(
             categoryRepo,
             jsonPrinter,
             categoryNodeCreator,
-            boardCreator
+            boardCreator,
+            categoryNodeValidator
         );
         var categoryPrinter = new CategoryPrinter(categoryRepo);
 
