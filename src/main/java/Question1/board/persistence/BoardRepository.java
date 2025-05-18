@@ -3,7 +3,7 @@ package Question1.board.persistence;
 import java.util.List;
 
 public interface BoardRepository {
-     void save(int boardId, Board board);
+     Board save(String boardName);
 
      Board findById(int boardId);
 
