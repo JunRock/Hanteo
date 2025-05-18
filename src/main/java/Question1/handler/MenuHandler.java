@@ -63,7 +63,7 @@ public class MenuHandler {
                 service.linkCategory(parentId, newId);
                 System.out.println("  ↳ 부모 " + parentId + "에 연결 완료");
             }
-            System.out.println("✔ 카테고리 생성 완료: [" + newId + "] " + newName);
+            System.out.println("카테고리 생성 완료: [" + newId + "] " + newName);
         });
     }
     public void handleCreateBoard(){
