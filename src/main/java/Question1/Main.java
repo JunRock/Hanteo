@@ -20,7 +20,8 @@ public class Main {
                 case "1" -> ctx.handler.handleIdLookup();
                 case "2" -> ctx.handler.handleNameLookup();
                 case "3" -> ctx.handler.handleCreateCategory();
-                case "4" -> {
+                case "4" -> ctx.handler.handleCreateBoard();
+                case "5" -> {
                     System.out.println("프로그램을 종료합니다.");
                     ctx.sc.close();
                     return;

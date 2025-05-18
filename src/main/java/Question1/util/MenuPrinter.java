@@ -6,7 +6,8 @@ public class MenuPrinter {
         System.out.println("1. 카테고리 ID로 조회");
         System.out.println("2. 카테고리 이름으로 조회");
         System.out.println("3. 카테고리 추가");
-        System.out.println("4. 종료");
+        System.out.println("4. 게시판 생성");
+        System.out.println("5. 종료");
     }
 
     public static void printPrompt() {

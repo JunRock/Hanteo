@@ -1,5 +1,6 @@
 package Question1.handler;
 
+import Question1.board.persistence.Board;
 import Question1.boardcategory.BoardCategoryService;
 import Question1.util.CategoryPrinter;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +57,7 @@ public class MenuHandler {
             System.out.print("새 카테고리 ID 입력> ");
             int newId = Integer.parseInt(sc.nextLine().trim());
             System.out.print("새 카테고리 이름 입력> ");
-            String newName = sc.nextLine().trim();
+            String newName = sc.nextLine();
             service.generateCategory(newId, newName);
 
             System.out.print("부모 카테고리 ID 입력(없으면 엔터)> ");
@@ -67,6 +68,18 @@ public class MenuHandler {
                 System.out.println("  ↳ 부모 " + parentId + "에 연결 완료");
             }
             System.out.println("✔ 카테고리 생성 완료: [" + newId + "] " + newName);
+        });
+    }
+    public void handleCreateBoard(){
+        exec(()->{
+            System.out.print("게시글 제목 입력> ");
+            String boardName = sc.nextLine();
+            Board board = service.createBoard(boardName);
+
+            categoryPrinter.getAllCategory();
+            System.out.print("하위 카테고리 ID 입력> ");
+            int categoryId = Integer.parseInt(sc.nextLine().trim());
+            service.assignBoardToCategory(board,categoryId);
         });
     }
 }

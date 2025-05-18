@@ -1,7 +1,7 @@
 package Question1.boardcategory;
 
+import Question1.board.domain.BoardCreator;
 import Question1.board.persistence.Board;
-import Question1.board.persistence.BoardEntityRepository;
 import Question1.category.domain.CategoryNodeCreator;
 import Question1.category.persistence.CategoryNode;
 import Question1.category.persistence.CategoryNodeEntityRepository;
@@ -13,14 +13,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardCategoryService {
 
-    private final BoardEntityRepository boardRepository;
     private final CategoryNodeEntityRepository categoryNodeRepository;
     private final JsonPrinter jsonPrinter;
     private final CategoryNodeCreator categoryNodeCreator;
+    private final BoardCreator boardCreator;
     private static final String DELIMITER = "\n\n";
 
-    public void assignBoardToCategory(int boardId, int categoryId) {
-        Board board = boardRepository.findById(boardId);
+    public void assignBoardToCategory(Board board, int categoryId) {
         CategoryNode category = categoryNodeRepository.findById(categoryId);
 
         board.getCategories().add(category);
@@ -32,18 +31,22 @@ public class BoardCategoryService {
         return jsonPrinter.toJson(node);
     }
 
-    public String toJsonTreeList(String categoryName){
+    public String toJsonTreeList(String categoryName) {
         List<CategoryNode> categoryNodeList = categoryNodeRepository.findByName(categoryName);
         return categoryNodeList.stream()
             .map(jsonPrinter::toJson)
             .collect(Collectors.joining(DELIMITER));
     }
 
-    public void generateCategory(int categoryId, String categoryName){
+    public void generateCategory(int categoryId, String categoryName) {
         categoryNodeCreator.create(categoryId, categoryName);
     }
 
-    public void linkCategory(int parentId, int childId){
+    public void linkCategory(int parentId, int childId) {
         categoryNodeCreator.createLink(parentId, childId);
+    }
+
+    public Board createBoard(String boardName) {
+        return boardCreator.create(boardName);
     }
 }
